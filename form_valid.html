@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test javascripty form validation</title>
+    <style>
+        .error{color: red;}
+        input,textarea,select{display: block;margin-bottom: 10px;}
+    </style>
+</head>
+<body>
+    <h2>Form Validation</h2>
+
+    <form id="myform" onsubmit="return validationForm()">
+        Name* <input type="text" id="name" maxlength="20">
+        <span id="nameError" class="error"></span>
+
+        Address* <textarea id="address"></textarea>
+        <span id="addressError" class="error"></span>
+
+        zip code* <input type="text" id="zip">
+        <span id="zipError" class="error"></span>
+
+        country*
+        <select id="country">
+            <option value="">Please select...</option>
+            <option value="Tanzania">Tanzania</option>
+            <option value="Zanzibar">Zanzibar</option>
+            <option value="China"> China</option>
+            <option value="Uganda">Uganda</option>
+            <option value="Spain">Spain</option>
+        </select>
+        <span id="countryError" class="error"></span>
+
+        Gender*
+        <input type="radio" name="gender" value="Male">Male
+        <input type="radio" name="gender" value="Female">Female
+        <span id="genderError" class="error"></span>
+
+        Preference* (Choose at least 2):
+        <input type="checkbox" name="color" value="Red">Red
+        <input type="checkbox" name="color" value="Green">Green
+        <input type="checkbox" name="color" value="Blue">Blue
+        <span id="prefError" class="error"></span>
+
+        Phone* <input type="text" id="phone">
+        <span id="phoneError" class="error"></span>
+
+        Email* <input type="email" id="email">
+        <span id="emailError" class="error"></span>
+
+        Password (6-8 character)* <input type="password" id="password">
+        <span id="passError" class="error"></span>
+
+        Verify Password* <input type="password" id="vpassword">
+        <span id="vpassError" class="error"></span>
+
+        <button type="submit">SUBMIT</button>
+        <button type="reset">CLEAR</button>
+
+
+        <script>
+            function validationForm(){
+                let valid = true;
+
+                document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+                const name = document.getElementById("name").value.trim();
+                if(name === "" || name.length > 20){
+                    document.getElementById("nameError").textContent = "Please enter your name (max 20 characters)";
+                    valid = false;
+                }
+
+                const address = document.getElementById("address").value.trim();
+                if (address === ""){
+                    document.getElementById("addressError").textContent = "Please enter your address (max 10 characters)";
+                    valid = false;
+                }
+
+                const zip = document.getElementById("zip").value.trim();
+                if (zip === ""){
+                    document.getElementById("zipError").textContent = "Please enter zip code";
+                    valid = false;
+                }
+
+                const country = document.getElementById("country").value;
+                if (country === ""){
+                    document.getElementById("countryError").textContent = "Please select a country";
+                    valid = false;
+                }
+
+                const genderSelected = document.querySelector("input[name='gender']:checked");
+                if (!genderSelected){
+                    document.getElementById("genderError").textContent = "Please select a gender";
+                    valid = false;
+                }
+
+                const colors = document.querySelectorAll("input[name='color']:checked");
+                if (colors.length < 2) {
+                    document.getElementById("prefError").textContent = "Please select at least 2 preferences";
+                    valid = false;
+                }
+
+                const phone = document.getElementById("phone").value.trim();
+                if (phone === ""){
+                    document.getElementById("phoneError").textContent ="Please enter your phone number";
+                    valid = false;
+                }
+
+                const email = document.getElementById("email").valid.trim;
+                if(email === ""){
+                    document.getElementById("emailError").textContent = "Please enter a email";
+                    valid = false;
+                }
+
+                const password = document.getElementById("password").value;
+                if(password.length < 6 || password.length > 8){
+                    document.getElementById("passError").textContent = "Password must be 6-8 length";
+                    valid = false;
+                }
+
+                const vpassword = document.getElementById("vpassword").value;
+                if(vpassword !== password){
+                    document.getElementById("vpassError").textContent = "Password does not match";
+                    valid = false;
+                }
+
+                return valid;
+
+
+            }
+        </script>
+
+    </form>
+    
+</body>
+</html>

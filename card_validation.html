@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Credit Card Validator</title>
+    </head>
+    <body>
+
+        <h3>Enter Credit Card Number</h3>
+        <input type="text" id="cardNumber" placeholder="Enter card number">
+        <button onclick="validateCard()">Validate</button>
+        <p id="result" style="color: red;"></p>
+
+        <script>
+            function validateCard() {
+                const cardNumber = document.getElementById("cardNumber").value.trim();
+                const result = document.getElementById("result");
+
+                const patterns = [
+                    { type: "American Express", regex: /^(34|37)\d{13}$/, length: 15 },
+                    { type: "Master Card", regex: /^(5[1-5])\d{14}$/, length: 16 },
+                    { type: "VISA", regex: /^4\d{12}(\d{1,3})?$/, length: [13, 16] },
+                    { type: "Discover", regex: /^6011\d{12}$/, length: [15, 16] },
+                    { type: "Diners Club", regex: /^(30[0-5])\d{11,13}$/, length: [14, 16] }
+                ];
+
+                let valid = false;
+
+                for (let card of patterns) {
+                    if (card.regex.test(cardNumber)) {
+                        let len = cardNumber.length;
+                        if (Array.isArray(card.length) ? card.length.includes(len) : len === card.length) {
+                            result.style.color = "green";
+                            result.textContent = `Valid ${card.type} card.`;
+                            valid = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!valid) {
+                    result.style.color = "red";
+                    result.textContent = "Invalid card number. Please check type, prefix, or length.";
+                }
+            }
+        </script>
+
+    </body>
+</html>

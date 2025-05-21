@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Registration Form</title>
+  <style>
+    .error { color: red; font-size: 0.9em; }
+    label, input, textarea { display: block; margin-bottom: 10px; width: 300px; }
+    textarea { height: 60px; }
+  </style>
+</head>
+<body>
+
+    <h2>Student Registration Form</h2>
+
+    <form id="studentForm" onsubmit="return validateStudentForm()">
+
+        <label>Student Name*:
+            <input type="text" id="name" maxlength="30">
+            <span id="nameError" class="error"></span>
+        </label>
+
+        <label>Register Number*:
+            <input type="text" id="regno">
+            <span id="regnoError" class="error"></span>
+        </label>
+
+        <label>Date of Birth*:
+            <input type="date" id="dob">
+            <span id="dobError" class="error"></span>
+        </label>
+
+        <label>Program*:
+            <input type="text" id="program">
+            <span id="programError" class="error"></span>
+        </label>
+
+        <label>Email ID*:
+            <input type="email" id="email">
+            <span id="emailError" class="error"></span>
+        </label>
+
+        <label>Temporary Address*:
+            <textarea id="tempAddress"></textarea>
+            <span id="tempAddressError" class="error"></span>
+        </label>
+
+        <label>
+            <input type="checkbox" id="sameAddress" onchange="copyAddress()"> Permanent address is same as temporary address
+        </label>
+
+        <label>Permanent Address*:
+            <textarea id="permAddress"></textarea>
+            <span id="permAddressError" class="error"></span>
+        </label>
+
+        <label>Phone Number*:
+            <input type="text" id="phone">
+            <span id="phoneError" class="error"></span>
+        </label>
+
+        <button type="submit">Register</button>
+        <button type="reset" onclick="resetForm()">Reset</button>
+    </form>
+
+    <script>
+        function validateStudentForm() {
+        let valid = true;
+
+        document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+        const name = document.getElementById("name").value.trim();
+        if (!/^[A-Za-z\s]{1,30}$/.test(name)) {
+            document.getElementById("nameError").textContent = "Name must be alphabets only (max 30 characters)";
+            valid = false;
+        }
+
+        const regno = document.getElementById("regno").value.trim();
+        if (!/^[A-Za-z0-9]+$/.test(regno)) {
+            document.getElementById("regnoError").textContent = "Register number must contain only letters and digits";
+            valid = false;
+        }
+
+        const dob = document.getElementById("dob").value;
+        if (!dob) {
+            document.getElementById("dobError").textContent = "Please select date of birth";
+            valid = false;
+        }
+
+        const program = document.getElementById("program").value.trim();
+        if (program === "") {
+            document.getElementById("programError").textContent = "Please enter your program";
+            valid = false;
+        }
+
+        const email = document.getElementById("email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById("emailError").textContent = "Please enter a valid email address";
+            valid = false;
+        }
+
+        const tempAddress = document.getElementById("tempAddress").value.trim();
+        if (tempAddress === "") {
+            document.getElementById("tempAddressError").textContent = "Please enter temporary address";
+            valid = false;
+        }
+
+        const permAddress = document.getElementById("permAddress").value.trim();
+        if (permAddress === "") {
+            document.getElementById("permAddressError").textContent = "Please enter permanent address";
+            valid = false;
+        }
+
+        const phone = document.getElementById("phone").value.trim();
+        if (!/^\d{10}$/.test(phone)) {
+            document.getElementById("phoneError").textContent = "Phone number must be exactly 10 digits";
+            valid = false;
+        }
+
+        return valid;
+        }
+
+        function copyAddress() {
+            const temp = document.getElementById("tempAddress");
+            const perm = document.getElementById("permAddress");
+            const checkbox = document.getElementById("sameAddress");
+
+            if (checkbox.checked) {
+                perm.value = temp.value;
+                perm.disabled = true;
+            } else {
+                perm.disabled = false;
+                perm.value = "";
+            }
+        }
+
+        function resetForm() {
+             document.getElementById("permAddress").disabled = false;
+        }
+    </script>
+
+</body>
+</html>
